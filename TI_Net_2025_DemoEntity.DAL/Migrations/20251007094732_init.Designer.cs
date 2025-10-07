@@ -12,7 +12,7 @@ namespace TI_Net_2025_DemoEntity.DAL.Migrations
 {
     [DbContext(typeof(DemoEntityContext))]
     [Migration("20251007094732_init")]
-    partial class init
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
