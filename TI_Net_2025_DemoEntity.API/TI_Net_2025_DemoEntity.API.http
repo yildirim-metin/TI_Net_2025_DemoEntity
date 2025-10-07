@@ -1,0 +1,6 @@
+@TI_Net_2025_DemoEntity.API_HostAddress = http://localhost:5293
+
+GET {{TI_Net_2025_DemoEntity.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TI_Net_2025_DemoEntity.DAL\TI_Net_2025_DemoEntity.DAL.csproj" />
+    <ProjectReference Include="..\TI_Net_2025_DemoEntity.DL\TI_Net_2025_DemoEntity.DL.csproj" />
+  </ItemGroup>
+
+</Project>
