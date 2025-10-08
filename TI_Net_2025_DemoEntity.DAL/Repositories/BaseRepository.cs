@@ -1,8 +1,6 @@
-using TI_Net_2025_DemoEntity.DL.Entities;
-
 namespace TI_Net_2025_DemoEntity.DAL.Repositories;
 
-public abstract class BaseRepository<Entity> where Entity : BaseEntity
+public abstract class BaseRepository<Entity> where Entity : class
 {
     protected DemoEntityContext _context;
 
@@ -43,7 +41,7 @@ public abstract class BaseRepository<Entity> where Entity : BaseEntity
     public virtual void Delete(int id)
     {
         Entity? entity = GetOne(id);
-        
+
         if (entity is not null)
         {
             _context.Set<Entity>().Remove(entity);

@@ -33,7 +33,6 @@ public class ProductService
 
         if (existingProduct is not null)
         {
-            existingProduct.AlcoholLevel = product.AlcoholLevel;
             existingProduct.Price = product.Price;
             existingProduct.Name = product.Name;
             existingProduct.Description = product.Description;
