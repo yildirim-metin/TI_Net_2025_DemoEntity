@@ -20,4 +20,8 @@
     <ProjectReference Include="..\TI_Net_2025_DemoEntity.DL\TI_Net_2025_DemoEntity.DL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

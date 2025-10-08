@@ -1,8 +1,7 @@
 ﻿namespace TI_Net_2025_DemoEntity.DL.Entities
 {
-    public class Order
+    public class Order : BaseEntity
     {
-        public int Id { get; set; }
         public DateTime Date { get; set; }
         public int Discount { get; set; }
         public int UserId { get; set; }

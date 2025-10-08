@@ -12,6 +12,20 @@ namespace TI_Net_2025_DemoEntity.DAL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "MovementLocation",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MovementLocation", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
@@ -19,13 +33,11 @@ namespace TI_Net_2025_DemoEntity.DAL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Price = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
-                    AlcoholLevel = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
                     Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
-                    table.CheckConstraint("CK_Product__AlcoholLevel", "AlcoholLevel >= 0");
                     table.CheckConstraint("CK_Product__Price", "Price >= 0");
                 });
 
@@ -84,13 +96,26 @@ namespace TI_Net_2025_DemoEntity.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Type_ = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false)
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    FromLocationId = table.Column<int>(type: "int", nullable: false),
+                    ToLocationId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_StockMovement", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_StockMovement_MovementLocation_FromLocationId",
+                        column: x => x.FromLocationId,
+                        principalTable: "MovementLocation",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_StockMovement_MovementLocation_ToLocationId",
+                        column: x => x.ToLocationId,
+                        principalTable: "MovementLocation",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_StockMovement_Products_ProductId",
                         column: x => x.ProductId,
@@ -212,9 +237,19 @@ namespace TI_Net_2025_DemoEntity.DAL.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_StockMovement_FromLocationId",
+                table: "StockMovement",
+                column: "FromLocationId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_StockMovement_ProductId",
                 table: "StockMovement",
                 column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StockMovement_ToLocationId",
+                table: "StockMovement",
+                column: "ToLocationId");
         }
 
         /// <inheritdoc />
@@ -237,6 +272,9 @@ namespace TI_Net_2025_DemoEntity.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "Role_");
+
+            migrationBuilder.DropTable(
+                name: "MovementLocation");
 
             migrationBuilder.DropTable(
                 name: "Products");

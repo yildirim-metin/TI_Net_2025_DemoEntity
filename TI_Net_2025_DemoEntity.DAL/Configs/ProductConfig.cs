@@ -9,7 +9,6 @@ namespace TI_Net_2025_DemoEntity.DAL.Configs
         public void Configure(EntityTypeBuilder<Product> builder)
         {
             builder.ToTable(p => p.HasCheckConstraint("CK_Product__Price", "Price >= 0"));
-            builder.ToTable(p => p.HasCheckConstraint("CK_Product__AlcoholLevel", "AlcoholLevel >= 0"));
 
             builder.HasKey(p => p.Id);
             builder.Property(p => p.Id).ValueGeneratedOnAdd();

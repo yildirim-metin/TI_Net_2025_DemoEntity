@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TI_Net_2025_DemoEntity.DAL.Migrations
 {
     [DbContext(typeof(DemoEntityContext))]
-    [Migration("20251007094732_init")]
+    [Migration("20251008091852_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -37,6 +37,28 @@ namespace TI_Net_2025_DemoEntity.DAL.Migrations
                     b.HasIndex("UsersId");
 
                     b.ToTable("RoleUser");
+                });
+
+            modelBuilder.Entity("TI_Net_2025_DemoEntity.DL.Entities.MovementLocation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MovementLocation", (string)null);
                 });
 
             modelBuilder.Entity("TI_Net_2025_DemoEntity.DL.Entities.Order", b =>
@@ -106,11 +128,6 @@ namespace TI_Net_2025_DemoEntity.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AlcoholLevel")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
-
                     b.Property<string>("Description")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
@@ -132,8 +149,6 @@ namespace TI_Net_2025_DemoEntity.DAL.Migrations
 
                     b.ToTable("Products", t =>
                         {
-                            t.HasCheckConstraint("CK_Product__AlcoholLevel", "AlcoholLevel >= 0");
-
                             t.HasCheckConstraint("CK_Product__Price", "Price >= 0");
                         });
                 });
@@ -199,10 +214,8 @@ namespace TI_Net_2025_DemoEntity.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("MovementType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("Type_");
+                    b.Property<int>("FromLocationId")
+                        .HasColumnType("int");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
@@ -210,9 +223,16 @@ namespace TI_Net_2025_DemoEntity.DAL.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<int>("ToLocationId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("FromLocationId");
+
                     b.HasIndex("ProductId");
+
+                    b.HasIndex("ToLocationId");
 
                     b.ToTable("StockMovement", (string)null);
                 });
@@ -298,13 +318,29 @@ namespace TI_Net_2025_DemoEntity.DAL.Migrations
 
             modelBuilder.Entity("TI_Net_2025_DemoEntity.DL.Entities.StockMovement", b =>
                 {
+                    b.HasOne("TI_Net_2025_DemoEntity.DL.Entities.MovementLocation", "From")
+                        .WithMany()
+                        .HasForeignKey("FromLocationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("TI_Net_2025_DemoEntity.DL.Entities.Product", "Product")
                         .WithMany("Movements")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("TI_Net_2025_DemoEntity.DL.Entities.MovementLocation", "To")
+                        .WithMany()
+                        .HasForeignKey("ToLocationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("From");
+
                     b.Navigation("Product");
+
+                    b.Navigation("To");
                 });
 
             modelBuilder.Entity("TI_Net_2025_DemoEntity.DL.Entities.Order", b =>

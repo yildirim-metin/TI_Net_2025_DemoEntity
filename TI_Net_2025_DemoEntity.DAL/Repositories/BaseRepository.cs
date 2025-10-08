@@ -1,6 +1,8 @@
+using TI_Net_2025_DemoEntity.DL.Entities;
+
 namespace TI_Net_2025_DemoEntity.DAL.Repositories;
 
-public abstract class BaseRepository<Entity> where Entity : class
+public abstract class BaseRepository<Entity> where Entity : BaseEntity
 {
     protected DemoEntityContext _context;
 
@@ -26,10 +28,11 @@ public abstract class BaseRepository<Entity> where Entity : class
         return _context.Set<Entity>().Find(id);
     }
 
-    public virtual void Add(Entity entity)
+    public virtual int Add(Entity entity)
     {
         _context.Set<Entity>().Add(entity);
         _context.SaveChanges();
+        return entity.Id;
     }
 
     public virtual void Update(Entity entity)

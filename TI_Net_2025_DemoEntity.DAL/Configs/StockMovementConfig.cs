@@ -8,18 +8,27 @@ public class StockMovementConfig : IEntityTypeConfiguration<StockMovement>
 {
     public void Configure(EntityTypeBuilder<StockMovement> builder)
     {
-        builder.ToTable("StockMovement");
+       builder.ToTable("StockMovement");
 
-        builder.HasKey(sm => sm.Id);
-        builder.Property(sm => sm.Id).ValueGeneratedOnAdd();
+       builder.HasKey(sm => sm.Id);
+       builder.Property(sm => sm.Id).ValueGeneratedOnAdd();
 
-        builder.Property(sm => sm.MovementType)
-               .HasColumnName("Type_")
-               .IsRequired()
-               .HasConversion<string>();
+       builder.Property(sm => sm.Quantity);
 
-        builder.Property(sm => sm.Quantity);
+       builder.HasOne(sm => sm.Product)
+              .WithMany(p => p.Movements)
+              .HasForeignKey(sm => sm.ProductId);
 
-        builder.HasOne(sm => sm.Product).WithMany(p => p.Movements).HasForeignKey(sm => sm.ProductId);
+       builder.HasOne(sm => sm.To)
+              .WithMany()
+              .HasForeignKey(sm => sm.ToLocationId)
+              .IsRequired()
+              .OnDelete(DeleteBehavior.Restrict);
+
+       builder.HasOne(sm => sm.From)
+              .WithMany()
+              .HasForeignKey(sm => sm.FromLocationId)
+              .IsRequired()
+              .OnDelete(DeleteBehavior.Restrict);
     }
 }
