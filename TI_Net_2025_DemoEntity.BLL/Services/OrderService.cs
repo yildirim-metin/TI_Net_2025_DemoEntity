@@ -1,6 +1,6 @@
 using TI_Net_2025_DemoEntity.DAL.Repositories;
-using TI_Net_2025_DemoEntity.DL;
 using TI_Net_2025_DemoEntity.DL.Entities;
+using TI_Net_2025_DemoEntity.DL.Enums;
 
 namespace TI_Net_2025_DemoEntity.BLL.Services;
 

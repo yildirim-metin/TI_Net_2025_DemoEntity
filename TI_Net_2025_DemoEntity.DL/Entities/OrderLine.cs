@@ -1,4 +1,6 @@
-﻿namespace TI_Net_2025_DemoEntity.DL.Entities
+﻿using TI_Net_2025_DemoEntity.DL.Enums;
+
+namespace TI_Net_2025_DemoEntity.DL.Entities
 {
     public class OrderLine
     {
