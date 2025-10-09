@@ -1,3 +1,5 @@
+using System.Runtime.Intrinsics.X86;
+using Microsoft.EntityFrameworkCore;
 using TI_Net_2025_DemoEntity.DL.Entities;
 
 namespace TI_Net_2025_DemoEntity.DAL.Repositories;
@@ -8,9 +10,25 @@ public class StockRepository : BaseRepository<Stock>
     {
     }
 
-    public int GetStockByProductId(int productId)
+    public int GetStockQuantityByProductId(int productId)
     {
         return _context.Stocks.Where(s => s.ProductId == productId)
                               .Sum(s => s.CurrentQuantity);
+    }
+
+    public Stock? GetOnsiteStockByProductId(int productId)
+    {
+        return _context.Stocks.Include(s => s.Location)
+                              .Where(s => s.ProductId == productId)
+                              .Where(s => s.Location != null && s.Location.Name == "OnSite")
+                              .FirstOrDefault();
+    }
+
+    public Stock? GetStockWareHouseByProductId(int productId)
+    {
+        return _context.Stocks.Include(s => s.Location)
+                              .Where(s => s.ProductId == productId)
+                              .Where(s => s.Location != null && s.Location.Name == "Warehouse")
+                              .FirstOrDefault();
     }
 }

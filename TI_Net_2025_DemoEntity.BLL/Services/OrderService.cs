@@ -24,8 +24,30 @@ public class OrderService
     {
         order.Lines.ForEach(l =>
         {
-            int quantity = _stockRepository.GetStockByProductId(l.ProductId);
-            l.Status = quantity > l.Quantity ? OrderLineStatus.Completed : OrderLineStatus.Restocking;
+            int totalQuantity = _stockRepository.GetStockQuantityByProductId(l.ProductId);
+            if (totalQuantity >= l.Quantity)
+            {
+                Stock stock = _stockRepository.GetOnsiteStockByProductId(l.ProductId) ?? new();
+                l.Status = stock.CurrentQuantity >= l.Quantity ? OrderLineStatus.Completed : OrderLineStatus.Restocking;
+
+                int oldQuantity = stock.CurrentQuantity;
+                if (stock.Id > 0)
+                {
+                    stock.CurrentQuantity -= l.Quantity;
+                    _stockRepository.Update(stock);
+                }
+
+                if (l.Status == OrderLineStatus.Restocking)
+                {
+                    stock = _stockRepository.GetStockWareHouseByProductId(l.ProductId) ?? new();
+                    l.Status = stock.CurrentQuantity >= l.Quantity ? OrderLineStatus.Completed : OrderLineStatus.Restocking;
+                    if (stock.Id > 0)
+                    {
+                        stock.CurrentQuantity -= l.Quantity - oldQuantity;
+                        _stockRepository.Update(stock);
+                    }
+                }
+            }
         });
         int newId = _orderRepository.Add(order);
         return newId > 0 ? newId : throw new Exception("Failed to create order.");

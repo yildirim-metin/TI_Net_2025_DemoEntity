@@ -33,7 +33,7 @@ namespace TI_Net_2025_DemoEntity.DAL.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("RoleUser");
+                    b.ToTable("RoleUser", (string)null);
                 });
 
             modelBuilder.Entity("TI_Net_2025_DemoEntity.DL.Entities.MovementLocation", b =>
@@ -116,7 +116,7 @@ namespace TI_Net_2025_DemoEntity.DAL.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderLines", t =>
+                    b.ToTable("OrderLines", null, t =>
                         {
                             t.HasCheckConstraint("CK_OrderLine__Quantity", "Quantity >= 0");
                         });
@@ -149,7 +149,7 @@ namespace TI_Net_2025_DemoEntity.DAL.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Products", t =>
+                    b.ToTable("Products", null, t =>
                         {
                             t.HasCheckConstraint("CK_Product__Price", "Price >= 0");
                         });
