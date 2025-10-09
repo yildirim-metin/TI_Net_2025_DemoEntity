@@ -5,5 +5,5 @@ public record class OrderLineDto
     public int Id { get; set; }
     public int Quantity { get; set; }
     public int ProductId { get; set; }
-    public required string Status { get; set; }
+    public string? Status { get; set; }
 }

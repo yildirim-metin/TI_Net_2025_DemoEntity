@@ -17,6 +17,7 @@ builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<OrderRepository>();
 builder.Services.AddScoped<OrderService>();
 
+builder.Services.AddScoped<StockService>();
 builder.Services.AddScoped<StockRepository>();
 
 builder.Services.AddDbContext<DemoEntityContext>(options =>
