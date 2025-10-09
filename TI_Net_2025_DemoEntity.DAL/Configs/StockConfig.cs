@@ -22,5 +22,9 @@ public class StockConfig : IEntityTypeConfiguration<Stock>
                .WithOne(p => p.Stock)
                .HasForeignKey<Stock>(s => s.ProductId)
                .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasOne(s => s.Location)
+               .WithMany(l => l.Stocks)
+               .HasForeignKey(s => s.LocationId);
     }
 }

@@ -16,6 +16,12 @@ public class OrderController : ControllerBase
         _orderService = orderService;
     }
 
+    [HttpGet]
+    public ActionResult<IEnumerable<OrderDto>> GetOrders()
+    {
+        return Ok(_orderService.GetOrders().ToOrderDtos());
+    }
+
     [HttpPut]
     public ActionResult CreateOrder([FromBody] OrderDto orderDto)
     {
