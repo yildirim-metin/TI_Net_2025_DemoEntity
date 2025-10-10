@@ -4,7 +4,7 @@ using TI_Net_2025_DemoEntity.DL.Entities;
 
 namespace TI_Net_2025_DemoEntity.DAL.Repositories;
 
-public class StockRepository : BaseRepository<Stock>
+public class StockRepository : _BaseRepository<Stock>
 {
     public StockRepository(DemoEntityContext context) : base(context)
     {

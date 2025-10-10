@@ -2,11 +2,11 @@ using TI_Net_2025_DemoEntity.DL.Entities;
 
 namespace TI_Net_2025_DemoEntity.DAL.Repositories;
 
-public abstract class BaseRepository<Entity> where Entity : BaseEntity
+public abstract class _BaseRepository<Entity> where Entity : BaseEntity
 {
     protected DemoEntityContext _context;
 
-    public BaseRepository(DemoEntityContext context)
+    public _BaseRepository(DemoEntityContext context)
     {
         _context = context;
     }

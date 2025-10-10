@@ -3,7 +3,7 @@ using TI_Net_2025_DemoEntity.DL.Entities;
 
 namespace TI_Net_2025_DemoEntity.DAL.Repositories;
 
-public class OrderRepository : BaseRepository<Order>
+public class OrderRepository : _BaseRepository<Order>
 {
     public OrderRepository(DemoEntityContext context) : base(context)
     {
