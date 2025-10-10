@@ -1,3 +1,4 @@
+using TI_Net_2025_DemoEntity.BLL.Exceptions;
 using TI_Net_2025_DemoEntity.DAL.Repositories;
 using TI_Net_2025_DemoEntity.DL.Entities;
 
@@ -14,12 +15,12 @@ public class ProductService
 
     public List<Product> GetAll()
     {
-        return [.. _productRepository.GetAll()];
+        return [.. _productRepository.FindMany()];
     }
 
     public Product GetOne(int id)
     {
-        return _productRepository.GetOne(id) ?? throw new NullReferenceException("Product not found!");
+        return _productRepository.FindOne(id) ?? throw new ProductNotFoundException();
     }
 
     public void Add(Product product)
@@ -43,6 +44,6 @@ public class ProductService
 
     public void Delete(int id)
     {
-        _productRepository.Delete(id);
+        _productRepository.Delete(GetOne(id));
     }
 }
