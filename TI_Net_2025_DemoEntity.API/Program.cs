@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using TI_Net_2025_DemoEntity.API.Middlewares;
 using TI_Net_2025_DemoEntity.BLL.Services;
 using TI_Net_2025_DemoEntity.DAL.Repositories;
 
@@ -35,6 +36,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseAuthorization();
 
